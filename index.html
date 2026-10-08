@@ -99,6 +99,14 @@
     display: block;
     background: #000;
   }
+  .menu-photo {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin: 18px auto 0;
+    filter: drop-shadow(0 8px 18px rgba(125, 74, 57, 0.25));
+  }
   .menu-card h4 {
     color: var(--gold-soft);
     font-size: 0.8rem;
@@ -477,7 +485,7 @@
       ["Legs - Half", 28], ["Legs - Full", 40], ["Stomach", 20], ["Back/Chest", 25],
       ["Back/Neck", 22], ["Bikini Basic", 18], ["Brazilian", 40], ["Hollywood", 45]
     ]},
-    { cat: "✦ NAILS", group: "NAILS", note: "Polygel", prefix: "Polygel Nails - ", items: [
+    { cat: "✦ NAILS", group: "NAILS", video: "nails.mp4", photo: "nails.webp", note: "Polygel", prefix: "Polygel Nails - ", items: [
       ["Short", 50], ["Medium", 60], ["Long", 70]
     ]},
     { cat: "✦ LASHES", group: "LASHES", items: [
@@ -514,6 +522,7 @@
       });
     }
     if (s.video) html += `<video class="menu-video" src="${s.video}" autoplay muted loop playsinline preload="metadata"></video>`;
+    if (s.photo) html += `<img class="menu-photo" src="${s.photo}" alt="Polygel nails by Evy" loading="lazy">`;
     menu.innerHTML += html + `</div>`;
     select.appendChild(og);
   });
