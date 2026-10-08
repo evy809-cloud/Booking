@@ -1,4 +1,3 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -159,6 +158,7 @@
     cursor: pointer;
     transition: transform 0.15s, box-shadow 0.15s;
   }
+  .btn:disabled { opacity: 0.6; cursor: wait; }
   .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232, 197, 71, 0.3); }
 
   /* Policies */
@@ -243,7 +243,9 @@
   <!-- BOOKING -->
   <section id="book">
     <h2>✦ BOOK YOUR APPOINTMENT ✦</h2>
-    <form class="form-card" id="bookingForm">
+    <form class="form-card" id="bookingForm" action="https://formspree.io/f/mrpeqlqk" method="POST">
+      <input type="hidden" name="_subject" value="New Booking - Glow Up By Evy">
+      <input type="hidden" name="form_type" value="Booking">
       <label>Full Name *</label>
       <input type="text" name="name" required>
       <div class="row">
@@ -370,7 +372,9 @@
   <!-- PRE-CONSULTATION -->
   <section>
     <h2>✦ PRE-CONSULTATION FORM ✦</h2>
-    <form class="form-card" id="consultForm">
+    <form class="form-card" id="consultForm" action="https://formspree.io/f/mrpeqlqk" method="POST">
+      <input type="hidden" name="_subject" value="New Pre-Consultation Form - Glow Up By Evy">
+      <input type="hidden" name="form_type" value="Pre-Consultation">
       <p class="sub">Complete before your appointment</p>
       <label>Full Name *</label>
       <input type="text" name="name" required>
@@ -399,11 +403,11 @@
         </div>
       </div>
       <label class="check">
-        <input type="checkbox" required>
+        <input type="checkbox" name="agreed_to_policies" value="Yes" required>
         <span><strong>I have read and agree to all Policies &amp; Procedures *</strong>I understand and accept the policies above</span>
       </label>
       <label class="check">
-        <input type="checkbox" required>
+        <input type="checkbox" name="agreed_to_aftercare" value="Yes" required>
         <span><strong>I confirm all information is accurate and I'll follow aftercare instructions *</strong>I agree to follow all aftercare advice</span>
       </label>
       <button type="submit" class="btn">✦ SUBMIT CONSULTATION ✦</button>
@@ -424,7 +428,7 @@
     <h2 id="modalTitle">✦ Appointment Booked! ✦</h2>
     <p id="modalThanks">Thank you for booking with Glow Up By Evy!</p>
     <p class="confirmed" id="modalStatus">✅ Booking Confirmed</p>
-    <p>You'll receive a confirmation email shortly.</p>
+    <p>Evy will reach out to confirm your appointment.</p>
     <p>DM @glowupbyevy to discuss payment options &amp; appointment details.</p>
     <p class="note">Payment methods: Cash • Venmo • CashApp • Zelle • Card</p>
     <button class="btn" onclick="closeModal()">Done</button>
@@ -507,21 +511,36 @@
   function closeModal() { modal.classList.remove("show"); }
   modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
 
-  // NOTE: These forms only show the confirmation popup.
-  // To actually receive submissions by email, connect a form service
-  // (e.g. Formspree or EmailJS) inside these handlers.
+  // Sends each form to Formspree, which emails it to Evy
+  async function sendForm(form, type) {
+    const btn = form.querySelector('button[type="submit"]');
+    const label = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "Sending...";
+    try {
+      const res = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" }
+      });
+      if (!res.ok) throw new Error("Send failed");
+      openModal(type);
+      form.reset();
+    } catch (err) {
+      alert("Sorry, something went wrong sending your form. Please try again or DM @glowupbyevy on Instagram.");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = label;
+    }
+  }
   document.getElementById("bookingForm").addEventListener("submit", e => {
     e.preventDefault();
-    openModal("booking");
-    e.target.reset();
+    sendForm(e.target, "booking");
   });
   document.getElementById("consultForm").addEventListener("submit", e => {
     e.preventDefault();
-    openModal("consult");
-    e.target.reset();
+    sendForm(e.target, "consult");
   });
 </script>
 </body>
 </html>
-
-</body></html>
