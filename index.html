@@ -95,7 +95,7 @@
     object-fit: cover;
     border-radius: 10px;
     border: 1px solid var(--line);
-    margin-bottom: 14px;
+    margin-top: 16px;
     display: block;
     background: #000;
   }
@@ -479,7 +479,6 @@
 
   services.forEach(s => {
     let html = `<div class="menu-card"><h3>${s.cat}</h3>`;
-    if (s.video) html += `<video class="menu-video" src="${s.video}" autoplay muted loop playsinline preload="metadata"></video>`;
     if (s.note) html += `<p class="menu-note">${s.note}</p>`;
     const og = document.createElement("optgroup");
     og.label = s.group;
@@ -499,6 +498,7 @@
         og.appendChild(new Option(`${pre}${n} ($${p})`, `${pre}${n}`));
       });
     }
+    if (s.video) html += `<video class="menu-video" src="${s.video}" autoplay muted loop playsinline preload="metadata"></video>`;
     menu.innerHTML += html + `</div>`;
     select.appendChild(og);
   });
