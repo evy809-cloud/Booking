@@ -470,7 +470,7 @@
 
 <script>
   const services = [
-    { cat: "✦ FACIALS", group: "FACIALS", video: "facial.mp4", items: [
+    { cat: "✦ FACIALS", group: "FACIALS", video: ["facial.mp4", "facial2.mp4"], items: [
       ["Basic Facial", 55], ["Deep Cleanse", 75], ["Facial + LED Light", 95],
       ["LED Light Therapy", 40], ["Dermaplaning", 85], ["Dermaplaning + LED", 85],
       ["Chemical Peels (Light/Med)", 85], ["Facial + Chemical Peel", 120]
@@ -521,7 +521,9 @@
         og.appendChild(new Option(`${pre}${n} ($${p})`, `${pre}${n}`));
       });
     }
-    if (s.video) html += `<video class="menu-video" src="${s.video}" autoplay muted loop playsinline preload="metadata"></video>`;
+    [].concat(s.video || []).forEach(src => {
+      html += `<video class="menu-video" src="${src}" autoplay muted loop playsinline preload="metadata"></video>`;
+    });
     if (s.photo) html += `<img class="menu-photo" src="${s.photo}" alt="Polygel nails by Evy" loading="lazy">`;
     menu.innerHTML += html + `</div>`;
     select.appendChild(og);
