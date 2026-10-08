@@ -255,6 +255,25 @@
   }
   .modal { background: #fffaf6; }
   input::placeholder, textarea::placeholder { color: #a8938a; }
+
+  /* Meet Evy */
+  .meet { text-align: center; }
+  .meet-photo {
+    display: block;
+    width: min(420px, 92%);
+    height: auto;
+    margin: 0 auto 18px;
+    filter: drop-shadow(0 10px 24px rgba(125, 74, 57, 0.22));
+  }
+  .meet h2 { margin-bottom: 6px; }
+  .meet-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    color: var(--gold-soft);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: clamp(0.95rem, 3.6vw, 1.25rem);
+  }
 </style>
 </head>
 <body>
@@ -266,6 +285,13 @@
 </header>
 
 <div class="wrap">
+
+  <!-- MEET EVY -->
+  <section class="meet">
+    <img class="meet-photo" src="evy.webp" alt="Evy doing a lash service">
+    <h2>✦ Meet Evy ✦</h2>
+    <p class="meet-line">Licensed Esthetician<br>&amp; Nail Tech</p>
+  </section>
 
   <!-- SERVICE MENU -->
   <section>
