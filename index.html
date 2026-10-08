@@ -89,6 +89,16 @@
     border-bottom: 1px solid var(--line);
     padding-bottom: 8px;
   }
+  .menu-video {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    margin-bottom: 14px;
+    display: block;
+    background: #000;
+  }
   .menu-card h4 {
     color: var(--gold-soft);
     font-size: 0.8rem;
@@ -437,7 +447,7 @@
 
 <script>
   const services = [
-    { cat: "✦ FACIALS", group: "FACIALS", items: [
+    { cat: "✦ FACIALS", group: "FACIALS", video: "facial.mp4", items: [
       ["Basic Facial", 55], ["Deep Cleanse", 75], ["Facial + LED Light", 95],
       ["LED Light Therapy", 40], ["Dermaplaning", 85], ["Dermaplaning + LED", 85],
       ["Chemical Peels (Light/Med)", 85], ["Facial + Chemical Peel", 120]
@@ -469,6 +479,7 @@
 
   services.forEach(s => {
     let html = `<div class="menu-card"><h3>${s.cat}</h3>`;
+    if (s.video) html += `<video class="menu-video" src="${s.video}" autoplay muted loop playsinline preload="metadata"></video>`;
     if (s.note) html += `<p class="menu-note">${s.note}</p>`;
     const og = document.createElement("optgroup");
     og.label = s.group;
