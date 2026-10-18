@@ -337,6 +337,19 @@
     header h1, .boo-face, .boo-eyes, .boo-eyes i, .boo-fog { animation: none; }
     .boo-eyes { opacity: .8; }
   }
+
+  /* spooky music button */
+  .boo-music { position: fixed; right: 12px; bottom: 16px; z-index: 50; display: flex; align-items: center; gap: 8px;
+    height: 48px; padding: 0 6px 0 14px; border: 0; border-radius: 999px; cursor: pointer;
+    background: rgba(40, 24, 18, .88); color: #ffd9a0; font: 600 13px 'Montserrat', sans-serif; letter-spacing: .02em;
+    box-shadow: 0 0 14px rgba(255,130,30,.55), 0 4px 14px rgba(0,0,0,.25); transition: padding .4s, gap .4s; }
+  .boo-music .boo-label { max-width: 160px; overflow: hidden; white-space: nowrap; transition: max-width .4s, opacity .4s; }
+  .boo-music.small { padding: 0 6px; gap: 0; } .boo-music.small .boo-label { max-width: 0; opacity: 0; }
+  .boo-music .boo-icon { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-size: 22px;
+    background: radial-gradient(circle at 50% 40%, #ffb347, #e0702a); }
+  .boo-music.playing .boo-icon { animation: boo-pulse 1.2s ease-in-out infinite; }
+  @keyframes boo-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,150,40,.7); } 50% { box-shadow: 0 0 0 7px rgba(255,150,40,0); } }
+  @media (prefers-reduced-motion: reduce) { .boo-music.playing .boo-icon { animation: none; } }
   /* ===== HALLOWEEN END ===== */
 </style>
 <!-- Vercel Web Analytics -->
@@ -701,6 +714,85 @@
   <svg class="boo-ghost" viewBox="0 0 40 50"><path d="M20 2C9 2 4 11 4 22v24l6-5 5 5 5-5 5 5 5-5 6 5V22C36 11 31 2 20 2z" fill="#fffaf5" stroke="#a26c56" stroke-width="1.5"/><circle cx="14" cy="20" r="2.5" fill="#3f2a22"/><circle cx="26" cy="20" r="2.5" fill="#3f2a22"/><ellipse cx="20" cy="29" rx="3" ry="4" fill="#3f2a22"/></svg>
 </div>
 <div class="boo-fog" aria-hidden="true"></div>
+<button class="boo-music" id="booMusic" type="button" aria-label="Play spooky music" aria-pressed="false">
+  <span class="boo-label">Tap for spooky music</span><span class="boo-icon" aria-hidden="true">🎃</span>
+</button>
+<script>
+/* Spooky music: an original tune made live in the browser (no audio file). Plays only when tapped. */
+(function () {
+  var btn = document.getElementById('booMusic'), label = btn.querySelector('.boo-label'), icon = btn.querySelector('.boo-icon');
+  var ctx = null, master = null, nodes = [], timer = null, playing = false, step = 0, nextTime = 0;
+  setTimeout(function () { if (!playing) btn.classList.add('small'); }, 6000);
+  // A minor music-box tune with a creepy raised 7th
+  var A4 = 440, n = function (semi) { return A4 * Math.pow(2, semi / 12); };
+  var tune = [0,3,7,6, 7,3,0,-1, 0,3,7,12, 11,7,6,null, 5,3,2,3, 0,-1,-4,-1, 0,null,-5,-1, 0,null,null,null];
+  var beat = 0.42;
+
+  function start() {
+    var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+    ctx = ctx || new AC(); if (ctx.state === 'suspended') ctx.resume();
+    master = ctx.createGain(); master.gain.setValueAtTime(0.0001, ctx.currentTime);
+    master.gain.exponentialRampToValueAtTime(0.5, ctx.currentTime + 2);
+    master.connect(ctx.destination);
+    // echo for the music box
+    var delay = ctx.createDelay(), fb = ctx.createGain(), wet = ctx.createGain();
+    delay.delayTime.value = beat * 1.5; fb.gain.value = 0.38; wet.gain.value = 0.5;
+    delay.connect(fb); fb.connect(delay); delay.connect(wet); wet.connect(master);
+    master._echo = delay;
+    // low drone: A + Eb (the "devil's interval")
+    var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 380; lp.Q.value = 6;
+    var lfo = ctx.createOscillator(), lfoAmt = ctx.createGain(); lfo.frequency.value = 0.07; lfoAmt.gain.value = 220;
+    lfo.connect(lfoAmt); lfoAmt.connect(lp.frequency); lfo.start();
+    var dg = ctx.createGain(); dg.gain.value = 0.09; lp.connect(dg); dg.connect(master);
+    [55, 55.4, 77.78].forEach(function (f) { var o = ctx.createOscillator(); o.type = 'sawtooth'; o.frequency.value = f; o.connect(lp); o.start(); nodes.push(o); });
+    nodes.push(lfo);
+    // wind: filtered noise that swells
+    var len = ctx.sampleRate * 2, buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
+    for (var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    var noise = ctx.createBufferSource(); noise.buffer = buf; noise.loop = true;
+    var bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 600; bp.Q.value = 3;
+    var wlfo = ctx.createOscillator(), wamt = ctx.createGain(); wlfo.frequency.value = 0.05; wamt.gain.value = 400;
+    wlfo.connect(wamt); wamt.connect(bp.frequency);
+    var wg = ctx.createGain(), glfo = ctx.createOscillator(), gamt = ctx.createGain();
+    wg.gain.value = 0.05; glfo.frequency.value = 0.09; gamt.gain.value = 0.045; glfo.connect(gamt); gamt.connect(wg.gain);
+    noise.connect(bp); bp.connect(wg); wg.connect(master); noise.start(); wlfo.start(); glfo.start();
+    nodes.push(noise, wlfo, glfo);
+    step = 0; nextTime = ctx.currentTime + 1.2;
+    timer = setInterval(schedule, 100);
+  }
+  function bell(freq, t) {
+    var o = ctx.createOscillator(), o2 = ctx.createOscillator(), g = ctx.createGain();
+    o.type = 'triangle'; o.frequency.value = freq; o2.type = 'sine'; o2.frequency.value = freq * 2.01;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.22, t + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 1.6);
+    o.connect(g); o2.connect(g); g.connect(master); g.connect(master._echo);
+    o.start(t); o2.start(t); o.stop(t + 1.7); o2.stop(t + 1.7);
+  }
+  function schedule() {
+    while (nextTime < ctx.currentTime + 0.3) {
+      var semi = tune[step % tune.length];
+      if (semi !== null) bell(n(semi), nextTime);
+      step++; nextTime += beat;
+    }
+  }
+  function stop() {
+    clearInterval(timer); timer = null;
+    var m = master, list = nodes; nodes = [];
+    if (m) { m.gain.cancelScheduledValues(ctx.currentTime); m.gain.setValueAtTime(m.gain.value, ctx.currentTime);
+      m.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.8); }
+    setTimeout(function () { list.forEach(function (x) { try { x.stop(); } catch (e) {} }); if (m) m.disconnect(); }, 900);
+  }
+  btn.addEventListener('click', function () {
+    playing = !playing;
+    if (playing) { start(); } else { stop(); }
+    btn.classList.toggle('playing', playing); btn.setAttribute('aria-pressed', playing);
+    btn.setAttribute('aria-label', playing ? 'Stop spooky music' : 'Play spooky music');
+    icon.textContent = playing ? '🔊' : '🎃'; label.textContent = playing ? 'Tap to stop' : 'Tap for spooky music';
+    btn.classList.remove('small'); setTimeout(function () { btn.classList.add('small'); }, 2500);
+  });
+  document.addEventListener('visibilitychange', function () { if (document.hidden && playing) btn.click(); });
+})();
+</script>
 <!-- HALLOWEEN END -->
 </body>
 </html>
