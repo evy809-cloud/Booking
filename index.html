@@ -305,6 +305,38 @@
     .boo-spider, .boo-bat, .boo-bat svg, .boo-ghost { animation: none; }
     .boo-bat { left: 8%; } .boo-bat.b2 { left: auto; right: 10%; } .boo-bat.b3 { left: 45%; }
   }
+
+  /* spookier extras */
+  header h1 { animation: boo-titleglow 3.5s ease-in-out infinite; }
+  @keyframes boo-titleglow { 0%,100% { text-shadow: 0 0 6px rgba(255,140,40,.25), 0 0 18px rgba(255,120,30,.15); }
+    50% { text-shadow: 0 0 10px rgba(255,150,50,.55), 0 0 30px rgba(255,110,20,.35); } }
+  .boo-pumpkins { filter: drop-shadow(0 0 8px rgba(255,140,40,.7)); }
+  .boo-face { fill: #ffb43c; animation: boo-flicker 2.2s infinite; }
+  @keyframes boo-flicker { 0%,100% { fill: #ffb43c; } 40% { fill: #ffd27a; } 45% { fill: #e8892a; } 50% { fill: #ffc85a; } 70% { fill: #f39a33; } }
+  .boo-ghost { filter: drop-shadow(0 0 10px rgba(190,255,200,.8)); }
+  .boo-spider { filter: drop-shadow(0 0 3px rgba(150,255,120,.6)); }
+  .boo-eyes { position: absolute; width: 15px; height: 6px; display: flex; justify-content: space-between; opacity: 0;
+    animation: boo-peek 9s ease-in-out infinite; }
+  .boo-eyes i { width: 6px; height: 6px; border-radius: 50%; background: radial-gradient(circle, #fff6a0 0 25%, #ffb000 26% 55%, transparent 70%);
+    box-shadow: 0 0 7px 2px rgba(255,190,0,.6); animation: boo-blink 9s infinite; }
+  .boo-eyes.e1 { top: 30%; left: 0; }
+  .boo-eyes.e2 { top: 58%; right: 0; animation-delay: -4s; } .boo-eyes.e2 i { animation-delay: -4s; background: radial-gradient(circle, #e0ffd0 0 25%, #4cff7a 26% 55%, transparent 70%); box-shadow: 0 0 10px 3px rgba(80,255,120,.5); }
+  .boo-eyes.e3 { top: 82%; left: 0; width: 12px; animation-delay: -7s; } .boo-eyes.e3 i { width: 5px; height: 5px; animation-delay: -7s; }
+  .boo-eyes.big { width: 30px; height: 11px; } .boo-eyes.big i { width: 11px; height: 11px; box-shadow: 0 0 12px 4px rgba(255,90,20,.6); background: radial-gradient(circle, #fff3c0 0 22%, #ff6a1a 24% 55%, transparent 70%); }
+  .boo-eyes.e4 { top: 210px; left: 2%; animation-delay: -2s; } .boo-eyes.e4 i { animation-delay: -2s; }
+  .boo-eyes.e5 { top: 260px; right: 2%; animation-delay: -6s; } .boo-eyes.e5 i { animation-delay: -6s; }
+  @keyframes boo-peek { 0%,55%,100% { opacity: 0; } 62%,90% { opacity: .9; } }
+  @keyframes boo-blink { 0%,72%,76%,100% { transform: scaleY(1); } 74% { transform: scaleY(.1); } }
+  .boo-fog { position: fixed; left: -20%; right: -20%; bottom: -40px; height: 140px; pointer-events: none; z-index: 4;
+    background: radial-gradient(ellipse at 30% 70%, rgba(255,255,255,.55), transparent 60%),
+                radial-gradient(ellipse at 75% 80%, rgba(240,235,230,.5), transparent 60%);
+    filter: blur(14px); animation: boo-fogdrift 18s ease-in-out infinite alternate; }
+  @keyframes boo-fogdrift { from { transform: translateX(-6%); } to { transform: translateX(6%); } }
+  .boo-hello { text-shadow: 0 0 8px rgba(255,140,40,.45); }
+  @media (prefers-reduced-motion: reduce) {
+    header h1, .boo-face, .boo-eyes, .boo-eyes i, .boo-fog { animation: none; }
+    .boo-eyes { opacity: .8; }
+  }
   /* ===== HALLOWEEN END ===== */
 </style>
 </head>
@@ -643,9 +675,14 @@
 <div class="boo-top" aria-hidden="true">
   <div class="boo-web left"><svg viewBox="0 0 100 100" fill="none" stroke="#7d4a39" stroke-width="1"><path d="M0 0 L100 0 M0 0 L0 100 M0 0 L95 45 M0 0 L70 75 M0 0 L45 95"/><path d="M22 0 Q20 10 0 22 M45 0 Q42 22 0 45 M68 0 Q63 34 0 68 M90 0 Q85 46 0 90"/><path d="M14 6 Q12 12 6 14 M30 13 Q24 24 13 30" opacity=".6"/></svg></div>
   <div class="boo-web right"><svg viewBox="0 0 100 100" fill="none" stroke="#7d4a39" stroke-width="1"><path d="M0 0 L100 0 M0 0 L0 100 M0 0 L95 45 M0 0 L70 75 M0 0 L45 95"/><path d="M22 0 Q20 10 0 22 M45 0 Q42 22 0 45 M68 0 Q63 34 0 68 M90 0 Q85 46 0 90"/><path d="M14 6 Q12 12 6 14 M30 13 Q24 24 13 30" opacity=".6"/></svg></div>
+  <div class="boo-eyes big e4"><i></i><i></i></div>
+  <div class="boo-eyes big e5"><i></i><i></i></div>
   <svg class="boo-spider" viewBox="0 0 22 120"><line x1="11" y1="0" x2="11" y2="100"/><g fill="#3f2a22"><ellipse cx="11" cy="104" rx="5" ry="6"/><circle cx="11" cy="97" r="3.2"/><path d="M6 101 L0 97 M6 104 L0 104 M6 107 L1 112 M16 101 L22 97 M16 104 L22 104 M16 107 L21 112" stroke="#3f2a22" stroke-width="1.2"/></g></svg>
 </div>
 <div class="boo-layer" aria-hidden="true">
+  <div class="boo-eyes e1"><i></i><i></i></div>
+  <div class="boo-eyes e2"><i></i><i></i></div>
+  <div class="boo-eyes e3"><i></i><i></i></div>
   <div class="boo-bat b1"><svg viewBox="0 0 64 32"><path d="M32 10c2-4 4-5 5-3 1-2 2-2 2 0 3-3 10-6 25-3-6 2-8 6-8 11-3-3-7-3-9 1-2-3-5-3-7 0-2-1-4 0-8 6-4-6-6-7-8-6-2-3-5-3-7 0-2-4-6-4-9-1 0-5-2-9-8-11 15-3 22 0 25 3 0-2 1-2 2 0 1-2 3-1 5 3z"/></svg></div>
   <div class="boo-bat b2"><svg viewBox="0 0 64 32"><path d="M32 10c2-4 4-5 5-3 1-2 2-2 2 0 3-3 10-6 25-3-6 2-8 6-8 11-3-3-7-3-9 1-2-3-5-3-7 0-2-1-4 0-8 6-4-6-6-7-8-6-2-3-5-3-7 0-2-4-6-4-9-1 0-5-2-9-8-11 15-3 22 0 25 3 0-2 1-2 2 0 1-2 3-1 5 3z"/></svg></div>
   <div class="boo-bat b3"><svg viewBox="0 0 64 32"><path d="M32 10c2-4 4-5 5-3 1-2 2-2 2 0 3-3 10-6 25-3-6 2-8 6-8 11-3-3-7-3-9 1-2-3-5-3-7 0-2-1-4 0-8 6-4-6-6-7-8-6-2-3-5-3-7 0-2-4-6-4-9-1 0-5-2-9-8-11 15-3 22 0 25 3 0-2 1-2 2 0 1-2 3-1 5 3z"/></svg></div>
@@ -653,11 +690,12 @@
 <div class="boo-bottom" aria-hidden="true">
   <svg class="boo-pumpkins" viewBox="0 0 100 60">
     <g><ellipse cx="34" cy="38" rx="26" ry="20" fill="#c97a45"/><ellipse cx="34" cy="38" rx="12" ry="20" fill="#d98b55"/><path d="M34 18 q2-8 7-10" stroke="#5c6b3a" stroke-width="3" fill="none" stroke-linecap="round"/>
-    <path d="M24 34 l4-5 4 5z M38 34 l4-5 4 5z M24 44 q10 7 20 0 l-3 3 -3-2 -4 3 -4-3 -3 2z" fill="#3f2a22"/></g>
-    <g><ellipse cx="76" cy="46" rx="18" ry="13" fill="#d98b55"/><ellipse cx="76" cy="46" rx="8" ry="13" fill="#e39d6a"/><path d="M76 33 q1-6 5-7" stroke="#5c6b3a" stroke-width="2.5" fill="none" stroke-linecap="round"/></g>
+    <path d="M24 34 l4-5 4 5z M38 34 l4-5 4 5z M24 44 q10 7 20 0 l-3 3 -3-2 -4 3 -4-3 -3 2z" class="boo-face"/></g>
+    <g><ellipse cx="76" cy="46" rx="18" ry="13" fill="#d98b55"/><ellipse cx="76" cy="46" rx="8" ry="13" fill="#e39d6a"/><path d="M76 33 q1-6 5-7" stroke="#5c6b3a" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M69 43 l3-4 3 4z M78 43 l3-4 3 4z M70 50 q6 4 12 0 l-2 2 -2-1 -2 2 -2-1 -2 1z" class="boo-face"/></g>
   </svg>
   <svg class="boo-ghost" viewBox="0 0 40 50"><path d="M20 2C9 2 4 11 4 22v24l6-5 5 5 5-5 5 5 5-5 6 5V22C36 11 31 2 20 2z" fill="#fffaf5" stroke="#a26c56" stroke-width="1.5"/><circle cx="14" cy="20" r="2.5" fill="#3f2a22"/><circle cx="26" cy="20" r="2.5" fill="#3f2a22"/><ellipse cx="20" cy="29" rx="3" ry="4" fill="#3f2a22"/></svg>
 </div>
+<div class="boo-fog" aria-hidden="true"></div>
 <!-- HALLOWEEN END -->
 </body>
 </html>
