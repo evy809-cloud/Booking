@@ -92,6 +92,10 @@
   .special-card .corner.l { top: -14px; left: -10px; transform: rotate(-12deg); }
   .special-card .corner.r { top: -14px; right: -10px; transform: rotate(12deg); }
   .menu-photo.menu-pic { border-radius: 12px; border: 1px solid var(--line); max-width: 340px; }
+  .benefits { list-style: none; margin: 4px 0 0; padding: 0; }
+  .benefits li { position: relative; padding: 5px 0 5px 22px; font-size: .9rem; color: var(--text); }
+  .benefits li::before { content: "✦"; position: absolute; left: 2px; color: var(--gold-soft); font-size: .8rem; top: 7px; }
+  .caution { margin-top: 10px; font-size: .75rem; color: var(--muted); font-style: italic; }
   /* Menu */
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
   .menu-card {
@@ -615,7 +619,16 @@
     ]},
     { cat: "✦ STEAM SAUNA", group: "STEAM SAUNA", items: [
       ["Steam Sauna - 15 min", 25]
-    ]},
+    ], benefits: [
+      "Opens pores &amp; deep cleanses skin",
+      "Leaves skin soft, hydrated &amp; glowing",
+      "Relieves stress &amp; promotes relaxation",
+      "Eases sore, tight muscles",
+      "Boosts circulation",
+      "Helps clear sinuses &amp; congestion",
+      "Preps skin for facials &amp; waxing",
+      "Helps you unwind &amp; sleep better"
+    ], caution: "Not recommended if pregnant or with heart conditions or high blood pressure. Please ask first."},
     { cat: "✦ BROWS", group: "BROWS", video: "brows.mp4", items: [
       ["Brow Wax & Shape", 20], ["Brow Mapping", 25], ["Brow Tint", 25],
       ["Brow Tint + Wax", 35], ["Brow Lamination", 65], ["Brow Lam + Tint", 70]
@@ -661,6 +674,10 @@
         html += itemRow(n, p);
         og.appendChild(new Option(`${pre}${n} ($${p})`, `${pre}${n}`));
       });
+    }
+    if (s.benefits) {
+      html += `<h4>BENEFITS</h4><ul class="benefits">${s.benefits.map(x => `<li>${x}</li>`).join("")}</ul>`;
+      if (s.caution) html += `<p class="caution">${s.caution}</p>`;
     }
     [].concat(s.video || []).forEach(src => {
       html += `<video class="menu-video" src="${src}" autoplay muted loop playsinline preload="metadata"></video>`;
