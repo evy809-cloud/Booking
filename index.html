@@ -96,6 +96,7 @@
   .benefits li { position: relative; padding: 5px 0 5px 22px; font-size: .9rem; color: var(--text); }
   .benefits li::before { content: "✦"; position: absolute; left: 2px; color: var(--gold-soft); font-size: .8rem; top: 7px; }
   .caution { margin-top: 10px; font-size: .75rem; color: var(--muted); font-style: italic; }
+  .item-tip { display: block; font-size: .72rem; color: var(--gold-soft); font-style: italic; margin-top: 2px; letter-spacing: .02em; }
   /* Menu */
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
   .menu-card {
@@ -613,7 +614,7 @@
 <script>
   const services = [
     { cat: "✦ FACIALS", group: "FACIALS", video: "facial.mp4", items: [
-      ["Basic Facial", 55], ["Deep Cleanse", 75], ["Facial + LED Light", 95], ["Vajacial", 100], ["Back Facial", 85], ["Extractions", 25],
+      ["Basic Facial", 55], ["Deep Cleanse", 75, "✦ Evy recommends adding Extractions"], ["Facial + LED Light", 95], ["Vajacial", 100], ["Back Facial", 85], ["Extractions", 25],
       ["LED Light Therapy", 40], ["Dermaplaning", 85], ["Dermaplaning + LED", 85],
       ["Chemical Peels (Light/Med)", 85], ["Facial + Chemical Peel", 120]
     ]},
@@ -658,8 +659,8 @@
 
   const menu = document.getElementById("menu");
   const select = document.getElementById("serviceSelect");
-  const itemRow = (name, price) =>
-    `<div class="item"><span>${name}</span><span class="price">$${price}</span></div>`;
+  const itemRow = (name, price, tip) =>
+    `<div class="item"><span>${name}${tip ? `<small class="item-tip">${tip}</small>` : ""}</span><span class="price">$${price}</span></div>`;
 
   services.forEach(s => {
     let html = `<div class="menu-card"><h3>${s.cat}</h3>`;
@@ -677,8 +678,8 @@
       });
     } else {
       const pre = s.prefix || "";
-      s.items.forEach(([n, p]) => {
-        html += itemRow(n, p);
+      s.items.forEach(([n, p, tip]) => {
+        html += itemRow(n, p, tip);
         og.appendChild(new Option(`${pre}${n} ($${p})`, `${pre}${n}`));
       });
     }
