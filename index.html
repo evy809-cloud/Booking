@@ -673,7 +673,7 @@
         "Helps clear sinuses &amp; congestion"
       ]]
     ], caution: "Not recommended if pregnant or with heart conditions or high blood pressure. Please ask first."},
-    { cat: "✦ BROWS", group: "BROWS", video: "brows.mp4", photo: "brows.webp", photoAlt: "Brow lamination and tint by Evy", photoClass: "menu-pic", items: [
+    { cat: "✦ BROWS", group: "BROWS", video: "brows.mp4", photo: "brows.webp", photoAlt: "Brow lamination and tint by Evy", photoClass: "menu-pic", photoFirst: true, items: [
       ["Brow Wax & Shape", 20], ["Brow Mapping", 25], ["Brow Tint", 25],
       ["Brow Tint + Wax", 35], ["Brow Lamination", 65], ["Brow Lam + Tint", 70]
     ]},
@@ -725,10 +725,12 @@
       });
       if (s.caution) html += `<p class="caution">${s.caution}</p>`;
     }
+    const photoHtml = s.photo ? `<img class="menu-photo ${s.photoClass || ''}" src="${s.photo}" alt="${s.photoAlt || 'Polygel and acrylic nails by Evy'}" loading="lazy">` : "";
+    if (s.photoFirst) html += photoHtml;
     [].concat(s.video || []).forEach(src => {
       html += `<video class="menu-video" src="${src}" autoplay muted loop playsinline preload="metadata"></video>`;
     });
-    if (s.photo) html += `<img class="menu-photo ${s.photoClass || ''}" src="${s.photo}" alt="${s.photoAlt || 'Polygel and acrylic nails by Evy'}" loading="lazy">`;
+    if (!s.photoFirst) html += photoHtml;
     menu.innerHTML += html + `</div>`;
     select.appendChild(og);
   });
