@@ -159,6 +159,12 @@
   .fcard-book { align-self: flex-start; padding: 8px 22px; border: 1px solid var(--gold-soft); border-radius: 999px;
     color: var(--gold); font-weight: 700; font-size: .82rem; letter-spacing: .08em; text-decoration: none; }
   .fcard-book:hover { background: var(--gold); color: #fffaf6; }
+  .addons { margin-top: 18px; padding-top: 6px; border-top: 1px solid var(--line); }
+  .addons h4 { font-size: .85rem; }
+  .addons h4 span { color: var(--muted); font-weight: 400; letter-spacing: .04em; text-transform: none; font-style: italic; margin-left: 6px; }
+  .addon-note { color: var(--muted); font-size: .75rem; font-style: italic; margin-top: 8px; }
+  .addon-picks { margin-bottom: 6px; }
+  .addon-picks .check { margin-bottom: 10px; }
   /* Menu */
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
   .menu-card {
@@ -421,6 +427,13 @@
         <div><label>Preferred Date *</label><input type="date" name="date" required></div>
         <div><label>Preferred Time *</label><input type="time" name="time" required></div>
       </div>
+      <div class="addon-picks">
+        <label>Facial Add-Ons (optional)</label>
+        <label class="check"><input type="checkbox" class="addonBox" value="Extractions ($25)"><span><strong>Extractions</strong>+$25</span></label>
+        <label class="check"><input type="checkbox" class="addonBox" value="Dermaplaning ($85)"><span><strong>Dermaplaning</strong>+$85</span></label>
+        <label class="check"><input type="checkbox" class="addonBox" value="Chemical Peel ($85)"><span><strong>Chemical Peel (Light/Med)</strong>+$85</span></label>
+        <input type="hidden" name="add_ons" id="addOnsField" value="None">
+      </div>
       <label class="check">
         <input type="checkbox" name="house_call" id="houseCallBox" value="Yes - House call (+$25 travel fee)">
         <span><strong>🚗 House call (+$25 travel fee)</strong>I'd like Evy to come to me</span>
@@ -610,16 +623,15 @@
       ["Glow Up Basic Facial", 55, "Your go-to refresh. I cleanse, exfoliate and treat your skin with a mask and hydration picked for your skin type, so you leave fresh, soft and glowing. Perfect for first-timers and monthly upkeep.", "Essential"],
       ["Glow Up Deep Cleanse Facial", 75, "For skin that feels clogged, oily or dull. Steam opens up the pores, then a deep cleanse and exfoliation clear out buildup and congestion, leaving your skin clearer, smoother and refined.", "Clarifying"],
       ["Glow Up LED Facial", 95, "A full facial finished with LED light therapy. The light helps calm breakouts and redness while boosting your glow, so it's a great pick for acne-prone or tired skin.", "Signature"],
-      ["Glow Up Dermaplane Facial", 85, "Dermaplaning gently removes dead skin and peach fuzz for a super smooth, bright complexion. Your skin drinks up products better, and makeup goes on flawless.", "Smooth"],
-      ["Glow Up Dermaplane + LED", 85, "All the smoothness of dermaplaning, finished with LED light to calm the skin and boost your results. Fresh, glowing and camera-ready.", "Smooth"],
-      ["Glow Up Peel", 85, "A light-to-medium chemical peel to resurface the skin. Helps fade dark spots, smooth texture and soften fine lines for a brighter, more even tone.", "Brightening"],
-      ["Glow Up Facial + Peel", 120, "The full glow treatment: a customized facial plus a chemical peel for deeper resurfacing. Best for dark spots, uneven tone, texture and dull skin.", "Luxe"],
       ["Glow Up LED Light Therapy", 40, "LED light on its own. Red light supports collagen and calms redness, while blue light targets acne-causing bacteria. Relaxing, quick and no downtime.", "Express"],
       ["Glow Up Back Facial", 85, "A facial for your back. Deep cleanse, exfoliation and a mask to clear breakouts, smooth rough patches and leave your back soft and glowing.", "Body"],
       ["Glow Up Vajacial", 100, "A facial for the bikini area. Cleanses, exfoliates and soothes to help with ingrown hairs, razor bumps and dark spots. Great on its own or after waxing.", "Body"],
       ["Glow Up Foot Facial", 50, "Pamper your feet. Exfoliation, a nourishing mask and deep moisture soften rough, dry skin and leave tired feet feeling brand new.", "Body"],
-      ["Glow Up Hand Facial", 25, "Give your hands some love. Exfoliation, a mask and moisture leave them smooth, soft and hydrated. A perfect add-on to any service.", "Add-On"],
-      ["Glow Up Extractions", 25, "Add to any facial. Gentle removal of blackheads and whiteheads to unclog pores and help prevent breakouts.", "Add-On"]
+      ["Glow Up Hand Facial", 25, "Give your hands some love. Exfoliation, a mask and moisture leave them smooth, soft and hydrated.", "Body"]
+    ], addons: [
+      ["Extractions", 25, "Gentle removal of blackheads &amp; whiteheads to unclog pores."],
+      ["Dermaplaning", 85, "Removes dead skin &amp; peach fuzz for super smooth, bright skin."],
+      ["Chemical Peel (Light/Med)", 85, "Resurfaces skin to fade dark spots and smooth texture."]
     ]},
     { cat: "✦ BROWS", group: "BROWS", video: "brows.mp4", photo: "brows.webp", photoAlt: "Brow lamination and tint by Evy", photoClass: "menu-pic", photoFirst: true, items: [
       ["Brow Wax & Shape", 20], ["Brow Mapping", 25], ["Brow Tint", 25],
@@ -689,6 +701,11 @@
         og.appendChild(new Option(`${n} ($${p})`, n));
       });
       html += `</div>`;
+      if (s.addons) {
+        html += `<div class="addons"><h4>✦ ADD-ONS <span>Add to any facial</span></h4>`;
+        s.addons.forEach(([n, p, d]) => { html += itemRow(n, p, d); });
+        html += `<p class="addon-note">Pick your add-ons when you book.</p></div>`;
+      }
     } else {
       const pre = s.prefix || "";
       s.items.forEach(([n, p, tip]) => {
@@ -751,6 +768,7 @@
       if (!res.ok) throw new Error("Send failed");
       openModal(type);
       form.reset();
+      const ao = document.getElementById("addOnsField"); if (ao) ao.value = "None";
     } catch (err) {
       alert("Sorry, something went wrong sending your form. Please try again or DM @glowupbyevy on Instagram.");
     } finally {
@@ -765,6 +783,12 @@
     box.addEventListener("change", sync);
     document.getElementById("bookHouseCall").addEventListener("click", () => { box.checked = true; sync(); });
   })();
+
+  // Combine chosen add-ons into one field for the booking email
+  document.querySelectorAll(".addonBox").forEach(b => b.addEventListener("change", () => {
+    const picks = [...document.querySelectorAll(".addonBox:checked")].map(x => x.value);
+    document.getElementById("addOnsField").value = picks.length ? picks.join(", ") : "None";
+  }));
 
   document.getElementById("bookingForm").addEventListener("submit", e => {
     e.preventDefault();
