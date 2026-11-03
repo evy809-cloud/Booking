@@ -400,8 +400,8 @@
     <div class="special-card">
       <span class="corner l" aria-hidden="true">🍂</span><span class="corner r" aria-hidden="true">🦃</span>
       <span class="special-tag">FACIAL + NAILS COMBO</span>
-      <div class="special-name">Glow Up Basic Facial<br>+ Short Polygel/Acrylic Set</div>
-      <p class="special-detail">Book a Basic Facial and get your short nail set <b>HALF OFF</b></p>
+      <div class="special-name">Glow Up Basic Facial<br>+ Short Polygel or Acrylic Set</div>
+      <p class="special-detail">Book a Basic Facial and get your short polygel <b>or</b> acrylic set <b>HALF OFF</b></p>
       <div class="special-price"><span class="was">$85</span><span class="now">$65</span></div>
       <div class="special-save">You save $20</div>
       <p class="special-dates">Facial $45 + Short Set $20 (reg. $40) · Good through November 30th</p>
@@ -760,7 +760,7 @@
     const sec = document.getElementById("specials");
     if (!sec) return;
     if (new Date() >= new Date(sec.dataset.ends + "T00:00:00")) { sec.remove(); return; }
-    const label = "November Special - Basic Facial + Short Nail Set";
+    const label = "November Special - Basic Facial + Short Polygel or Acrylic Set";
     const og = document.createElement("optgroup");
     og.label = "SPECIALS";
     og.appendChild(new Option(`${label} ($65)`, label));
