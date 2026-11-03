@@ -96,7 +96,8 @@
   .benefits li { position: relative; padding: 5px 0 5px 22px; font-size: .9rem; color: var(--text); }
   .benefits li::before { content: "✦"; position: absolute; left: 2px; color: var(--gold-soft); font-size: .8rem; top: 7px; }
   .caution { margin-top: 10px; font-size: .75rem; color: var(--muted); font-style: italic; }
-  .item-tip { display: block; font-size: .72rem; color: var(--gold-soft); font-style: italic; margin-top: 2px; letter-spacing: .02em; }
+  .item-tip { display: block; font-size: .76rem; line-height: 1.4; color: var(--muted); margin-top: 3px; padding-right: 6px; }
+  .item .price { flex-shrink: 0; }
 
   /* House calls */
   .house-card { max-width: 560px; margin: 0 auto; text-align: center; padding: 28px 22px;
@@ -592,9 +593,19 @@
 <script>
   const services = [
     { cat: "✦ FACIALS", group: "FACIALS", video: "facial.mp4", items: [
-      ["Basic Facial", 55], ["Deep Cleanse", 75], ["Facial + LED Light", 95], ["Vajacial", 100], ["Back Facial", 85], ["Extractions", 25], ["Foot Facial", 50], ["Hand Facial", 25],
-      ["LED Light Therapy", 40], ["Dermaplaning", 85], ["Dermaplaning + LED", 85],
-      ["Chemical Peels (Light/Med)", 85], ["Facial + Chemical Peel", 120]
+      ["Basic Facial", 55, "Cleanse, exfoliate, mask &amp; moisturize for fresh, glowing skin. Great for all skin types."],
+      ["Deep Cleanse", 75, "Steam, exfoliation &amp; a deep pore cleanse to clear congestion and refine pores."],
+      ["Facial + LED Light", 95, "A full facial finished with LED light therapy to calm breakouts and boost your glow."],
+      ["Vajacial", 100, "Cleanses, exfoliates &amp; soothes the bikini area to help with ingrown hairs, bumps &amp; dark spots."],
+      ["Back Facial", 85, "Deep cleanse, exfoliation &amp; mask for your back to clear breakouts and smooth the skin."],
+      ["Extractions", 25, "Add-on: gentle removal of blackheads &amp; whiteheads to unclog pores."],
+      ["Foot Facial", 50, "Exfoliation, mask &amp; deep moisture to soften rough skin and refresh tired feet."],
+      ["Hand Facial", 25, "Exfoliation, mask &amp; moisture to leave hands smooth, soft &amp; hydrated."],
+      ["LED Light Therapy", 40, "Red &amp; blue light to calm redness, target acne and support collagen."],
+      ["Dermaplaning", 85, "Removes dead skin &amp; peach fuzz for smooth, bright skin and flawless makeup."],
+      ["Dermaplaning + LED", 85, "Dermaplaning finished with LED light to soothe the skin and boost results."],
+      ["Chemical Peels (Light/Med)", 85, "Exfoliating peel to improve texture, dark spots, fine lines &amp; dull skin."],
+      ["Facial + Chemical Peel", 120, "A full facial plus a peel for deeper resurfacing and brighter, smoother skin."]
     ]},
     { cat: "✦ BROWS", group: "BROWS", video: "brows.mp4", photo: "brows.webp", photoAlt: "Brow lamination and tint by Evy", photoClass: "menu-pic", photoFirst: true, items: [
       ["Brow Wax & Shape", 20], ["Brow Mapping", 25], ["Brow Tint", 25],
