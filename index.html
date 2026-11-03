@@ -145,6 +145,20 @@
     .leaf.l2, .leaf.l4, .leaf.l5, .leaf.l7, .leaf.l9, .leaf.l10 { display: none; }
   }
   /* ===== FALL END ===== */
+  /* Glow Up facial cards */
+  .menu-card.wide { grid-column: 1 / -1; }
+  .fcards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 6px; }
+  .fcard { background: rgba(255,255,255,.55); border: 1px solid var(--line); border-radius: 14px; padding: 18px 16px 16px;
+    display: flex; flex-direction: column; box-shadow: 0 4px 14px rgba(125,74,57,.08); }
+  .fcard-tag { align-self: flex-start; padding: 4px 12px; border-radius: 999px; background: var(--rose-grad); color: #fffaf6;
+    font-size: .66rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 10px; }
+  .fcard-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .fcard-name { font-family: 'Playfair Display', serif; color: var(--text); font-size: 1.15rem; line-height: 1.25; margin: 0; }
+  .fcard-price { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--gold); font-size: 1.15rem; flex-shrink: 0; }
+  .fcard-desc { color: var(--muted); font-size: .86rem; line-height: 1.55; margin: 8px 0 14px; flex: 1; }
+  .fcard-book { align-self: flex-start; padding: 8px 22px; border: 1px solid var(--gold-soft); border-radius: 999px;
+    color: var(--gold); font-weight: 700; font-size: .82rem; letter-spacing: .08em; text-decoration: none; }
+  .fcard-book:hover { background: var(--gold); color: #fffaf6; }
   /* Menu */
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
   .menu-card {
@@ -592,20 +606,20 @@
 
 <script>
   const services = [
-    { cat: "✦ FACIALS", group: "FACIALS", video: "facial.mp4", items: [
-      ["Basic Facial", 55, "Cleanse, exfoliate, mask &amp; moisturize for fresh, glowing skin. Great for all skin types."],
-      ["Deep Cleanse", 75, "Steam, exfoliation &amp; a deep pore cleanse to clear congestion and refine pores."],
-      ["Facial + LED Light", 95, "A full facial finished with LED light therapy to calm breakouts and boost your glow."],
-      ["Vajacial", 100, "Cleanses, exfoliates &amp; soothes the bikini area to help with ingrown hairs, bumps &amp; dark spots."],
-      ["Back Facial", 85, "Deep cleanse, exfoliation &amp; mask for your back to clear breakouts and smooth the skin."],
-      ["Extractions", 25, "Add-on: gentle removal of blackheads &amp; whiteheads to unclog pores."],
-      ["Foot Facial", 50, "Exfoliation, mask &amp; deep moisture to soften rough skin and refresh tired feet."],
-      ["Hand Facial", 25, "Exfoliation, mask &amp; moisture to leave hands smooth, soft &amp; hydrated."],
-      ["LED Light Therapy", 40, "Red &amp; blue light to calm redness, target acne and support collagen."],
-      ["Dermaplaning", 85, "Removes dead skin &amp; peach fuzz for smooth, bright skin and flawless makeup."],
-      ["Dermaplaning + LED", 85, "Dermaplaning finished with LED light to soothe the skin and boost results."],
-      ["Chemical Peels (Light/Med)", 85, "Exfoliating peel to improve texture, dark spots, fine lines &amp; dull skin."],
-      ["Facial + Chemical Peel", 120, "A full facial plus a peel for deeper resurfacing and brighter, smoother skin."]
+    { cat: "✦ GLOW UP FACIALS", group: "FACIALS", video: "facial.mp4", cards: true, items: [
+      ["Glow Up Basic Facial", 55, "Your go-to refresh. I cleanse, exfoliate and treat your skin with a mask and hydration picked for your skin type, so you leave fresh, soft and glowing. Perfect for first-timers and monthly upkeep.", "Essential"],
+      ["Glow Up Deep Cleanse Facial", 75, "For skin that feels clogged, oily or dull. Steam opens up the pores, then a deep cleanse and exfoliation clear out buildup and congestion, leaving your skin clearer, smoother and refined.", "Clarifying"],
+      ["Glow Up LED Facial", 95, "A full facial finished with LED light therapy. The light helps calm breakouts and redness while boosting your glow, so it's a great pick for acne-prone or tired skin.", "Signature"],
+      ["Glow Up Dermaplane Facial", 85, "Dermaplaning gently removes dead skin and peach fuzz for a super smooth, bright complexion. Your skin drinks up products better, and makeup goes on flawless.", "Smooth"],
+      ["Glow Up Dermaplane + LED", 85, "All the smoothness of dermaplaning, finished with LED light to calm the skin and boost your results. Fresh, glowing and camera-ready.", "Smooth"],
+      ["Glow Up Peel", 85, "A light-to-medium chemical peel to resurface the skin. Helps fade dark spots, smooth texture and soften fine lines for a brighter, more even tone.", "Brightening"],
+      ["Glow Up Facial + Peel", 120, "The full glow treatment: a customized facial plus a chemical peel for deeper resurfacing. Best for dark spots, uneven tone, texture and dull skin.", "Luxe"],
+      ["Glow Up LED Light Therapy", 40, "LED light on its own. Red light supports collagen and calms redness, while blue light targets acne-causing bacteria. Relaxing, quick and no downtime.", "Express"],
+      ["Glow Up Back Facial", 85, "A facial for your back. Deep cleanse, exfoliation and a mask to clear breakouts, smooth rough patches and leave your back soft and glowing.", "Body"],
+      ["Glow Up Vajacial", 100, "A facial for the bikini area. Cleanses, exfoliates and soothes to help with ingrown hairs, razor bumps and dark spots. Great on its own or after waxing.", "Body"],
+      ["Glow Up Foot Facial", 50, "Pamper your feet. Exfoliation, a nourishing mask and deep moisture soften rough, dry skin and leave tired feet feeling brand new.", "Body"],
+      ["Glow Up Hand Facial", 25, "Give your hands some love. Exfoliation, a mask and moisture leave them smooth, soft and hydrated. A perfect add-on to any service.", "Add-On"],
+      ["Glow Up Extractions", 25, "Add to any facial. Gentle removal of blackheads and whiteheads to unclog pores and help prevent breakouts.", "Add-On"]
     ]},
     { cat: "✦ BROWS", group: "BROWS", video: "brows.mp4", photo: "brows.webp", photoAlt: "Brow lamination and tint by Evy", photoClass: "menu-pic", photoFirst: true, items: [
       ["Brow Wax & Shape", 20], ["Brow Mapping", 25], ["Brow Tint", 25],
@@ -652,7 +666,7 @@
     `<div class="item"><span>${name}${tip ? `<small class="item-tip">${tip}</small>` : ""}</span><span class="price">$${price}</span></div>`;
 
   services.forEach(s => {
-    let html = `<div class="menu-card"><h3>${s.cat}</h3>`;
+    let html = `<div class="menu-card${s.cards ? " wide" : ""}"><h3>${s.cat}</h3>`;
     if (s.note) html += `<p class="menu-note">${s.note}</p>`;
     const og = document.createElement("optgroup");
     og.label = s.group;
@@ -665,6 +679,16 @@
           og.appendChild(new Option(`${sub.prefix}${n} ($${p})`, `${sub.prefix}${n}`));
         });
       });
+    } else if (s.cards) {
+      html += `<div class="fcards">`;
+      s.items.forEach(([n, p, desc, tag]) => {
+        html += `<div class="fcard">${tag ? `<span class="fcard-tag">${tag}</span>` : ""}
+          <div class="fcard-top"><h5 class="fcard-name">${n}</h5><span class="fcard-price">$${p}</span></div>
+          <p class="fcard-desc">${desc}</p>
+          <a href="#book" class="fcard-book" data-service="${n}">Book</a></div>`;
+        og.appendChild(new Option(`${n} ($${p})`, n));
+      });
+      html += `</div>`;
     } else {
       const pre = s.prefix || "";
       s.items.forEach(([n, p, tip]) => {
@@ -686,6 +710,11 @@
     if (!s.photoFirst) html += photoHtml;
     menu.innerHTML += html + `</div>`;
     select.appendChild(og);
+  });
+  // Book buttons on facial cards pick that facial in the booking form
+  menu.addEventListener("click", e => {
+    const b = e.target.closest(".fcard-book");
+    if (b) select.value = b.dataset.service;
   });
 
   // Don't allow booking dates in the past
