@@ -87,6 +87,7 @@
     text-shadow: 0 0 12px rgba(255,140,40,.35); line-height: 1; }
   .special-save { color: var(--green); font-weight: 700; font-size: .85rem; letter-spacing: .05em; }
   .special-dates { color: var(--muted); font-size: .85rem; margin: 10px 0 18px; font-style: italic; }
+  .special-detail { color: var(--text); font-size: .95rem; margin: 2px 0 8px; }
   .special-card .btn { display: inline-block; width: auto; padding: 14px 28px; text-decoration: none; }
   .special-card .corner { position: absolute; font-size: 1.6rem; }
   .special-card .corner.l { top: -14px; left: -10px; transform: rotate(-12deg); }
@@ -392,6 +393,21 @@
 </header>
 
 <div class="wrap">
+
+  <!-- SPECIALS (November special hides itself after Nov 30) -->
+  <section id="specials" data-ends="2026-12-01">
+    <h2>✦ November Special ✦</h2>
+    <div class="special-card">
+      <span class="corner l" aria-hidden="true">🍂</span><span class="corner r" aria-hidden="true">🦃</span>
+      <span class="special-tag">FACIAL + NAILS COMBO</span>
+      <div class="special-name">Glow Up Basic Facial<br>+ Short Polygel/Acrylic Set</div>
+      <p class="special-detail">Book a Basic Facial and get your short nail set <b>HALF OFF</b></p>
+      <div class="special-price"><span class="was">$85</span><span class="now">$65</span></div>
+      <div class="special-save">You save $20</div>
+      <p class="special-dates">Facial $45 + Short Set $20 (reg. $40) · Good through November 30th</p>
+      <a href="#book" class="btn" id="bookSpecial">✦ BOOK THIS SPECIAL ✦</a>
+    </div>
+  </section>
 
   <!-- HOUSE CALLS -->
   <section id="house-calls">
@@ -738,6 +754,19 @@
     const b = e.target.closest(".fcard-book");
     if (b) select.value = b.dataset.service;
   });
+
+  // Specials: add to booking dropdown, preselect on tap, hide after end date
+  (function () {
+    const sec = document.getElementById("specials");
+    if (!sec) return;
+    if (new Date() >= new Date(sec.dataset.ends + "T00:00:00")) { sec.remove(); return; }
+    const label = "November Special - Basic Facial + Short Nail Set";
+    const og = document.createElement("optgroup");
+    og.label = "SPECIALS";
+    og.appendChild(new Option(`${label} ($65)`, label));
+    select.insertBefore(og, select.children[1]);
+    document.getElementById("bookSpecial").addEventListener("click", () => { select.value = label; });
+  })();
 
   // Don't allow booking dates in the past
   document.querySelector('input[name="date"]').min = new Date().toISOString().split("T")[0];
