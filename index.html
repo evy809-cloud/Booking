@@ -166,7 +166,7 @@
   .fcard-book { color: var(--gold); font-weight: 700; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; }
   .fcard-book:hover { text-decoration: underline; }
   .item-book { display: block; margin-top: 4px; font-size: .7rem; }
-  .addons { margin: 0 0 10px; padding: 12px 14px 10px; border-radius: 12px; background: rgba(162,108,86,.07); border: 1px solid var(--line); }
+  .addons { margin: 14px 0 10px; padding: 12px 14px 10px; border-radius: 12px; background: rgba(162,108,86,.07); border: 1px solid var(--line); }
   .addons h4 { margin-top: 0; }
   .addons h4 { font-size: .85rem; }
   .addons h4 span { color: var(--muted); font-weight: 400; letter-spacing: .04em; text-transform: none; font-style: italic; margin-left: 6px; }
@@ -716,11 +716,6 @@
         });
       });
     } else if (s.cards) {
-      if (s.addons) {
-        html += `<div class="addons"><h4>✦ ADD-ONS <span>Add to any facial</span></h4>`;
-        s.addons.forEach(([n, p, d]) => { html += itemRow(n, p, d); });
-        html += `<p class="addon-note">Pick your add-ons when you book.</p></div>`;
-      }
       html += `<div class="fcards">`;
       s.items.forEach(([n, p, desc]) => {
         html += `<div class="fcard">
@@ -730,6 +725,11 @@
         og.appendChild(new Option(`${n} ($${p})`, n));
       });
       html += `</div>`;
+      if (s.addons) {
+        html += `<div class="addons"><h4>✦ ADD-ONS <span>Add to any facial</span></h4>`;
+        s.addons.forEach(([n, p, d]) => { html += itemRow(n, p, d); });
+        html += `<p class="addon-note">Pick your add-ons when you book.</p></div>`;
+      }
     } else {
       const pre = s.prefix || "";
       s.items.forEach(([n, p, tip]) => {
