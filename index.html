@@ -165,6 +165,7 @@
   .fcard-desc { color: var(--muted); font-size: .85rem; line-height: 1.55; margin: 6px 0 8px; }
   .fcard-book { color: var(--gold); font-weight: 700; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; }
   .fcard-book:hover { text-decoration: underline; }
+  .item-book { display: block; margin-top: 4px; font-size: .7rem; }
   .addons { margin: 0 0 10px; padding: 12px 14px 10px; border-radius: 12px; background: rgba(162,108,86,.07); border: 1px solid var(--line); }
   .addons h4 { margin-top: 0; }
   .addons h4 { font-size: .85rem; }
@@ -645,7 +646,7 @@
     { cat: "✦ GLOW UP FACIALS", group: "FACIALS", video: "facial.mp4", cards: true, items: [
       ["Glow Up Basic Facial", 45, "Your go-to refresh. I cleanse, exfoliate and treat your skin with a mask and hydration picked for your skin type, so you leave fresh, soft and glowing. Perfect for first-timers and monthly upkeep.", "Essential"],
       ["Glow Up Deep Cleanse Facial", 60, "For skin that feels clogged, oily or dull. Steam opens up the pores, then a deep cleanse and exfoliation clear out buildup and congestion, leaving your skin clearer, smoother and refined.", "Clarifying"],
-      ["Glow Up Head Spa (Scalp Facial)", 45, "A facial for your scalp. I cleanse and gently exfoliate to lift away buildup, apply a nourishing scalp mask, then finish with relaxing scalp therapy and a warm rinse. Leaves your scalp refreshed and your mind at ease.", "Relaxing"],
+      ["Glow Up Scalp Facial", 45, "A facial for your scalp. I cleanse and gently exfoliate to lift away buildup, apply a nourishing scalp mask, then finish with relaxing scalp therapy and a warm rinse. Leaves your scalp refreshed and your mind at ease.", "Relaxing"],
       ["Glow Up Back Facial", 65, "A facial for your back. Deep cleanse, exfoliation and a mask to clear breakouts, smooth rough patches and leave your back soft and glowing.", "Body"],
       ["Glow Up Vajacial", 75, "A facial for the bikini area. Cleanses, exfoliates and soothes to help with ingrown hairs, razor bumps and dark spots. Great on its own or after waxing.", "Body"],
       ["Glow Up Foot Facial", 35, "Pamper your feet. Exfoliation, a nourishing mask and deep moisture soften rough, dry skin and leave tired feet feeling brand new.", "Body"],
@@ -697,8 +698,8 @@
 
   const menu = document.getElementById("menu");
   const select = document.getElementById("serviceSelect");
-  const itemRow = (name, price, tip) =>
-    `<div class="item"><span>${name}${tip ? `<small class="item-tip">${tip}</small>` : ""}</span><span class="price">$${price}</span></div>`;
+  const itemRow = (name, price, tip, book) =>
+    `<div class="item"><span>${name}${tip ? `<small class="item-tip">${tip}</small>` : ""}${book ? `<a href="#book" class="fcard-book item-book" data-service="${book}">Book ›</a>` : ""}</span><span class="price">$${price}</span></div>`;
 
   services.forEach(s => {
     let html = `<div class="menu-card${s.cards ? " wide" : ""}"><h3>${s.cat}</h3>`;
@@ -710,7 +711,7 @@
       s.subs.forEach(sub => {
         html += `<h4>${sub.name}</h4>`;
         sub.items.forEach(([n, p]) => {
-          html += itemRow(n, p);
+          html += itemRow(n, p, null, `${sub.prefix}${n}`);
           og.appendChild(new Option(`${sub.prefix}${n} ($${p})`, `${sub.prefix}${n}`));
         });
       });
@@ -732,7 +733,7 @@
     } else {
       const pre = s.prefix || "";
       s.items.forEach(([n, p, tip]) => {
-        html += itemRow(n, p, tip);
+        html += itemRow(n, p, tip, `${pre}${n}`);
         og.appendChild(new Option(`${pre}${n} ($${p})`, `${pre}${n}`));
       });
     }
