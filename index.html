@@ -410,6 +410,12 @@
 
 <div class="wrap">
 
+  <!-- SERVICE MENU: facials first -->
+  <section>
+    <h2>Service Menu &amp; Pricing</h2>
+    <div class="menu-grid" id="menuTop"></div>
+  </section>
+
   <!-- SPECIALS (November special hides itself after Nov 30) -->
   <section id="specials" data-ends="2026-12-01">
     <h2>✦ November Special ✦</h2>
@@ -438,9 +444,8 @@
     </div>
   </section>
 
-  <!-- SERVICE MENU -->
+  <!-- SERVICE MENU: everything else -->
   <section>
-    <h2>Service Menu &amp; Pricing</h2>
     <div class="menu-grid" id="menu"></div>
   </section>
 
@@ -770,14 +775,14 @@
       html += `<video class="menu-video" src="${src}" autoplay muted loop playsinline preload="metadata"></video>`;
     });
     if (!s.photoFirst) html += photoHtml;
-    menu.innerHTML += html + `</div>`;
+    (s.cards ? document.getElementById("menuTop") : menu).innerHTML += html + `</div>`;
     select.appendChild(og);
   });
   // Book buttons on facial cards pick that facial in the booking form
-  menu.addEventListener("click", e => {
+  [menu, document.getElementById("menuTop")].forEach(m => m.addEventListener("click", e => {
     const b = e.target.closest(".fcard-book");
     if (b) select.value = b.dataset.service;
-  });
+  }));
 
   // Specials: add to booking dropdown, preselect on tap, hide after end date
   (function () {
