@@ -712,8 +712,8 @@
       ["Legs - Half", 25, "Wax from ankle to knee, or knee to upper thigh."], ["Legs - Full", 35, "Smooth legs from ankle to upper thigh."], ["Stomach", 15, "Removes hair on the stomach and belly line."], ["Back/Chest", 25, "Removes hair across the back or chest."],
       ["Back/Neck", 20, "Cleans up the back of the neck and upper back."], ["Bikini Basic", 18, "Cleans up the bikini line, outside the panty line."], ["Brazilian", 60, "Removes hair from the front, in between and back. A small strip can be left if you like."], ["Hollywood", 70, "Removes all hair from the front, in between and back, for completely smooth skin."]
     ]},
-    { cat: "✦ NAILS", group: "NAILS", photo: "nails.webp", note: "Polygel &amp; Acrylic", prefix: "Polygel/Acrylic Nails - ", items: [
-      ["Short", 40, "Short polygel or acrylic set, shaped and finished. Design included."], ["Medium", 50, "Medium-length polygel or acrylic set, shaped and finished. Design included."], ["Long", 60, "Long polygel or acrylic set, shaped and finished. Design included."]
+    { cat: "✦ NAILS", group: "NAILS", photo: "nails.webp", note: "Polygel · Acrylic · Manicures", prefix: "Polygel/Acrylic Nails - ", items: [
+      ["Short", 40, "Short polygel or acrylic set, shaped and finished. Design included."], ["Medium", 50, "Medium-length polygel or acrylic set, shaped and finished. Design included."], ["Long", 60, "Long polygel or acrylic set, shaped and finished. Design included."], ["Manicure", 30, "A classic manicure: nails shaped, cuticles cleaned up, hands moisturized and finished with polish.", "Manicure"]
     ]},
     { cat: "✦ LIPS", group: "LIPS", items: [
       ["Semi-Permanent Lip Liner Tint", 25, "A soft tint traced around your lips for a defined, natural-looking liner that lasts up to 2 weeks. No more drawing on lip liner every day."]
@@ -765,9 +765,10 @@
       }
     } else {
       const pre = s.prefix || "";
-      s.items.forEach(([n, p, tip]) => {
-        html += itemRow(n, p, tip, `${pre}${n}`);
-        og.appendChild(new Option(`${pre}${n} ($${p})`, `${pre}${n}`));
+      s.items.forEach(([n, p, tip, book]) => {
+        const bk = book || `${pre}${n}`;
+        html += itemRow(n, p, tip, bk);
+        og.appendChild(new Option(`${bk} ($${p})`, bk));
       });
     }
     if (s.benefitGroups) {
